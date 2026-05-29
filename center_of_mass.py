@@ -1,6 +1,5 @@
 import numpy as np
 import MDAnalysis as mda
-from scipy.spatial.distance import cdist
 
 # load the universe from the .gro file
 u = mda.Universe("pthrp.gro")

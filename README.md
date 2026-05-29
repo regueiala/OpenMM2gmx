@@ -1,6 +1,6 @@
 # omm2gmx
-<img width="409" height="223" alt="600022861-2beb1187-80cc-4983-8eb(1)" src="https://github.com/user-attachments/assets/295fbb92-b8c2-4b06-b961-9e7febf670fe" />
-
+<img width="1024" height="559" alt="image" align="center" src="https://github.com/user-attachments/assets/2d264cc1-8828-4fed-b7b9-11dca1e78c1f" />
+>
 A workflow for converting and centering OpenMM trajectories with GROMACS.
 Adapted for membrane protein , run with triclinic box
 

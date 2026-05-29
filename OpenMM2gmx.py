@@ -109,7 +109,7 @@ def compute_center_of_mass(GRO_OUTPUT):
 
 def make_index_file(GRO_OUTPUT, center_res, sim_name, output_dir):
     logger.info("- Generating index file ")
-    cmd = ["gmx", "make_ndx", "-f", GRO_OUTPUT, "-o", f"{output_dir}/{sim_name}_index.ndx"]
+    cmd = ["gmx", "make_ndx", "-f", GRO_OUTPUT, "-o", f"{sim_name}_index.ndx"]
 
     if isinstance(center_res, list):
         center_res = center_res[0]
@@ -167,7 +167,7 @@ def make_index_file(GRO_OUTPUT, center_res, sim_name, output_dir):
 
 
 
-def traj_correction(TPR_OUTPUT, OUTPUT_XTC, INDEX_OUTPUT, new_group_id, sim_name, output_dir, save_mode, protein_index):
+def traj_correction(GRO_OUTPUT, TPR_OUTPUT, OUTPUT_XTC, INDEX_OUTPUT, new_group_id, sim_name, output_dir, save_mode, protein_index):
     logger.info("- Correcting trajectory for PBC and centering")
 
     nojump_xtc = f"{output_dir}/{sim_name}_nojump.xtc"
@@ -200,6 +200,11 @@ def traj_correction(TPR_OUTPUT, OUTPUT_XTC, INDEX_OUTPUT, new_group_id, sim_name
             centered_xtc = centered_xtc_only_protein
             cmd2 = ["gmx", "trjconv","-s", TPR_OUTPUT,"-f", nojump_xtc,"-n", INDEX_OUTPUT,"-o", centered_xtc,"-pbc", "mol","-center","-ur", "compact"]
             result2 = subprocess.run( cmd2, input=f"{new_group_id}\n{protein_index}\n", text=True, capture_output=True)        
+            
+            cmd3 = ["gmx", "trjconv","-s", TPR_OUTPUT,"-f", GRO_OUTPUT,"-n", INDEX_OUTPUT,"-o", f"{output_dir}/{sim_name}.gro"]
+            result3 = subprocess.run( cmd3, input=f"{protein_index}\n", text=True, capture_output=True)        
+
+            
         elif save_mode == 2:
             centered_xtc = centered_xtc_full_complex
             cmd2 = ["gmx", "trjconv","-s", TPR_OUTPUT,"-f", nojump_xtc,"-n", INDEX_OUTPUT,"-o", centered_xtc,"-pbc", "mol","-center","-ur", "compact"]
@@ -207,11 +212,16 @@ def traj_correction(TPR_OUTPUT, OUTPUT_XTC, INDEX_OUTPUT, new_group_id, sim_name
             
             centered_xtc = centered_xtc_only_protein
             cmd2 = ["gmx", "trjconv","-s", TPR_OUTPUT,"-f", nojump_xtc,"-n", INDEX_OUTPUT,"-o", centered_xtc,"-pbc", "mol","-center","-ur", "compact"]
-            result2 = subprocess.run( cmd2, input=f"{new_group_id}\n{protein_index}\n", text=True, capture_output=True)        
+            result2 = subprocess.run( cmd2, input=f"{new_group_id}\n{protein_index}\n", text=True, capture_output=True) 
+            cmd3 = ["gmx", "trjconv","-s", TPR_OUTPUT,"-f", GRO_OUTPUT,"-n", INDEX_OUTPUT,"-o", f"{output_dir}/{sim_name}.gro"]
+            result3 = subprocess.run( cmd3, input=f"{protein_index}\n", text=True, capture_output=True)        
+       
 
         log_file.write("=== Step 2: centering ===\n")
         log_file.write(result2.stdout)
         log_file.write(result2.stderr)
+        log_file.write(result3.stdout)
+        log_file.write(result3.stderr)
         log_file.write(f"\nCorrected trajectory generated: {centered_xtc}\n")
 
         if result2.returncode != 0:
@@ -244,4 +254,4 @@ if __name__ == "__main__":
 
     OUTPUT_XTC = convert_traj(top_file, traj_files, sim_name, stride, output_dir)
     new_group_id, INDEX_OUTPUT, protein_index = make_index_file(GRO_OUTPUT, center_res, sim_name, output_dir)
-    traj_correction(TPR_OUTPUT, OUTPUT_XTC, INDEX_OUTPUT, new_group_id, sim_name, output_dir, save_mode, protein_index)
+    traj_correction(GRO_OUTPUT, TPR_OUTPUT, OUTPUT_XTC, INDEX_OUTPUT, new_group_id, sim_name, output_dir, save_mode, protein_index)

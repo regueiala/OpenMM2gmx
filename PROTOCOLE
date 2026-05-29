@@ -1,0 +1,11 @@
+
+1/run paremd
+2/convert to xtc with gromacs modif , run gromacs...py
+3/ gmx make_ndx -f pthrp.gro -o index.ndx   r resid    ( ou center of mass python3 center_of_mass.py)
+gmx trjconv -s pthrp.tpr -f  trj_gromacs.xtc  -o trj_nojump.xtc -pbc nojump
+
+4/gmx trjconv -s pthrp.tpr -f  trj_nojump.xtc  -o trj_center.xtc -pbc mol -center -ur compact -n index.ndx   21 0  
+
+
+vmd *.parm7  *.xtc ( always)
+

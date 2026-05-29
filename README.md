@@ -13,6 +13,10 @@ This repository provides a workflow to:
 - Convert OpenMM `.dcd` trajectories into GROMACS-compatible `.xtc` , handling esapcially difference between triclinic box definiton between openmm and gromcas
 - treating the the trajectory with no jump and center options around a selection of residues (eg. Center of mass of the protein)
 
+## Author
+
+    Alaa REGUEI, PhD Student - Université Paris Cité, BFA.
+
 ## Installation
 
 ```bash

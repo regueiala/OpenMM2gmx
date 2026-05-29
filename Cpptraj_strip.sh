@@ -1,15 +1,20 @@
-#!/bin/sh
+#!/bin/bash
 
-# create output directory in parent
+# Input trajectory (XTC)
+TRAJ="$1"
+
+# Output directory
 mkdir -p ../centered_stripped_trajs
 
-for traj in *.dcd; do
-  base=$(basename "$traj" .dcd)
+BASENAME="${TRAJ%.xtc}"
 
-  cpptraj << EOF
-parm ../step5_input.parm7
-trajin $traj 1 last 10
-strip :WAT,Cl-,Na+,PA,PC,OL outprefix stripped
-trajout ../centered_stripped_trajs/${base}_stripped.dcd
+cpptraj ../step5_input.parm7 << EOF
+trajin $TRAJ 1 last 10
+
+# Remove solvent and ions
+strip :WAT,Cl-,Na+,PA,PC,OL
+
+# Write output trajectory (XTC is supported via conversion workflow)
+trajout ../centered_stripped_trajs/${BASENAME}_stripped.xtc
+run
 EOF
-done

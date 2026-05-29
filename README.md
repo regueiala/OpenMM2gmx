@@ -129,3 +129,5 @@ Always load the topology together with the trajectory:
 ```bash
 vmd topology.parm7 trj_center.xtc
 ```
+
+### ATTENTION :  try to not use stride ( 1/10 frames eg.) when centering ( a lots of problemes then) instead , at the end you can pass them via cpptraj to do stride , stripping of water, lipids, ions ( using strip.sh)

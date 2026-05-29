@@ -12,7 +12,7 @@ cpptraj ../step5_input.parm7 << EOF
 trajin $TRAJ 1 last 10
 
 # Remove solvent and ions
-strip :WAT,Cl-,Na+,PA,PC,OL
+strip :WAT,Cl-,Na+,PA,PC,OL outprefix stripped
 
 # Write output trajectory (XTC is supported via conversion workflow)
 trajout ../centered_stripped_trajs/${BASENAME}_stripped.xtc

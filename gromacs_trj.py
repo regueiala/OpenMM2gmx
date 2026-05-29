@@ -28,7 +28,7 @@ traj = md.load("output.dcd", top="step5_input.parm7")
 bv = traj.unitcell_vectors.copy()
 
 bv[0]
-bv[np.abs(bv) <= 1e-1] = 0.0
+bv[np.abs(bv) <= 1e-2] = 0.0
 
 traj.unitcell_vectors = bv
 traj.save_xtc("trj_gromacs.xtc")

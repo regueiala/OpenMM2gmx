@@ -13,6 +13,3 @@ strip :WAT,Cl-,Na+,PA,PC,OL outprefix stripped
 trajout ../centered_stripped_trajs/${base}_stripped.dcd
 EOF
 done
-
-strip.sh (END)
-

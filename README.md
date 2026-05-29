@@ -13,10 +13,15 @@ This repository provides a workflow to:
 
 - Generate `.gro` , `.top ` and `.tpr` files from OpenMM outputs
 - Convert OpenMM `.dcd` trajectories into GROMACS-compatible `.xtc` , handling esapcially difference between triclinic box definiton between openmm and gromcas
-- treating the the trajectory with no jump and center options around a residue close to system center of mass or any other residues
-- Visualize the final trajectory in VMD
+- treating the the trajectory with no jump and center options around a selection of residues (eg. Center of mass of the protein)
 
 ---
+
+```bash
+python3 ../test.py  --top step5_input.parm7 --xml gs_explicit_prod_final.xml --mdp ../file.mdp --sim_name test --traj gs_explicit_prod.dcd  --center_res "COM" --save_mode 0
+```
+
+
 
 ## 1. Generate `.gro` , `.top ` and `.tpr` files
 
